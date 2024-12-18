@@ -21,10 +21,10 @@ A React-based user management system with user registration, authentication, and
 
 ## Installation
 
-1. Clone the repository:
-2. Navigate to project directory:
-3. 3. Install dependencies: npm install
-4. Start the development server:
+1. Clone the repository: https://github.com/SaurabhSangewar03/user-management-app
+2. Navigate to the project directory: cd user-management-app
+3. Install dependencies: npm install
+4. Start the development server: npm start
 
 ## Project Structure
 user-management-app/
@@ -70,6 +70,7 @@ user-management-app/
 
 ## Contact
 
-sangewar007@gmail.com.com
-Project Link: https://github.com/your-username/user-management-app
+Email - sangewar007@gmail.com
+
+Project Link: https://github.com/SaurabhSangewar03/user-management-app
   
