@@ -14,6 +14,47 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Form validation
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+        setAlert({
+          show: true,
+          message: "All fields are required",
+          type: "danger",
+        });
+        return;
+      }
+  
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        setAlert({
+          show: true,
+          message: "Please enter a valid email address",
+          type: "danger",
+        });
+        return;
+      }
+  
+      // Password validation
+      if (formData.password.length < 6) {
+        setAlert({
+          show: true,
+          message: "Password must be at least 6 characters long",
+          type: "danger",
+        });
+        return;
+      }
+  
+      // Confirm password validation
+      if (formData.password !== formData.confirmPassword) {
+        setAlert({
+          show: true,
+          message: "Passwords do not match",
+          type: "danger",
+        });
+        return;
+      }
+
     // get existing users from local storage
     const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
 

@@ -13,39 +13,80 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // get users from local storage
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    // find user by email
-    const user = users.find((u) => u.email === formData.email);
-
-    if (!user) {
+    // Form validation
+    if (!formData.email || !formData.password) {
       setAlert({
         show: true,
-        message: "User not found! Please register first.",
+        message: "Please fill all required fields",
         type: "danger",
       });
       return;
     }
 
-    // check password
-    if (user.password === formData.password) {
-      // set current user
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      setIsLoggedIn(true);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
       setAlert({
         show: true,
-        message: "Login successful! Redirecting...",
-        type: "success",
+        message: "Please enter a valid email address",
+        type: "danger",
       });
+      return;
+    }
 
-      setTimeout(() => {
-        navigate("/profile");
-      }, 2000);
-    } else {
+    // Password length validation
+    if (formData.password.length < 6) {
       setAlert({
         show: true,
-        message: "Incorrect password! Please try again.",
+        message: "Password must be at least 6 characters long",
+        type: "danger",
+      });
+      return;
+    }
+
+    try {
+      // get users from local storage
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      // find user by email
+      const user = users.find((u) => u.email === formData.email);
+
+      if (!user) {
+        setAlert({
+          show: true,
+          message: "User not found! Please register first.",
+          type: "danger",
+        });
+        return;
+      }
+
+      // check password
+      if (user.password === formData.password) {
+        // set current user
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        setIsLoggedIn(true);
+        setAlert({
+          show: true,
+          message: "Login successful! Redirecting...",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          navigate("/profile");
+        }, 2000);
+      } else {
+        setAlert({
+          show: true,
+          message: "Incorrect password! Please try again.",
+          type: "danger",
+        });
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setAlert({
+        show: true,
+        message: "An unexpected error occurred. Please try again later.",
         type: "danger",
       });
     }
